@@ -7,38 +7,41 @@ RUTA_ARCHIVO = "posts.json"
 
 
 def cargar_posts():
-    """Lee el JSON (diccionarios) y lo convierte en una lista de OBJETOS Post."""
+  def cargar_posts():
+    """Lee el JSON (diccionarios) y lo convierte en una lista de OBJETOS Post"""
     if not os.path.exists(RUTA_ARCHIVO):
         return []
 
     try:
         with open(RUTA_ARCHIVO, "r", encoding="utf-8") as archivo:
             datos = json.load(archivo)
-            
-            posts_cargados = []
-            for item in datos:
-                # Convertimos el autor
-                datos_autor = item.get("autor", {})
-                if isinstance(datos_autor, dict):
-                    autor_obj = Autor(
-                        nombre=datos_autor.get("nombre", "Anónimo"),
-                        bio=datos_autor.get("bio", "")
-                    )
-                else:
-                    autor_obj = Autor(nombre=str(datos_autor))
 
-                # Reconstruimos el objeto Post
-                post_obj = Post(
-                    id=item.get("id"),
-                    titulo=item.get("titulo", ""),
-                    contenido=item.get("contenido", ""),
-                    autor=autor_obj,
-                    tags=item.get("tags", []),
-                    estado=item.get("estado", "publicado")
+        posts_cargados = []
+        for item in datos:
+            # Convertimos el autor
+            datos_autor = item.get("autor", {})
+            if isinstance(datos_autor, dict):
+                autor_obj = Autor(
+                    nombre=datos_autor.get("nombre", "Anónimo"),
+                    bio=datos_autor.get("bio", ""),
+                    especialidad=datos_autor.get("especialidad", ""),
+                    redes_sociales=datos_autor.get("redes_sociales", {})
                 )
-                posts_cargados.append(post_obj)
+            else:
+                autor_obj = Autor(nombre=str(datos_autor))
 
-            return posts_cargados
+            # Reconstruimos el objeto Post
+            post_obj = Post(
+                id=item.get("id"),
+                titulo=item.get("titulo", ""),
+                contenido=item.get("contenido", ""),
+                autor=autor_obj,
+                tags=item.get("tags", []),
+                estado=item.get("estado", "publicado")
+            )
+            posts_cargados.append(post_obj)
+
+        return posts_cargados
 
     except Exception as e:
         print(f"Error al cargar posts desde JSON: {e}")

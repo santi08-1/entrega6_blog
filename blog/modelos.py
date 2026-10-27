@@ -36,7 +36,8 @@ class Post:
 
 class Blog:
     def __init__(self):
-        self.posts = []
+        from blog.datos import cargar_posts
+        self.posts = cargar_posts() or []
 
     def crear_post(self, post):
         if self.validar_post(post):
@@ -57,9 +58,13 @@ class Blog:
             print(f"[{p.id}] {p.titulo} - Autor: {p.autor.nombre} - Estado: {p.estado}")
 
     def buscar_por_titulo(self, texto):
+        if not self.posts:
+            return[]
         return [p for p in self.posts if texto.lower() in p.titulo.lower()]
 
     def filtrar_por_tag(self, tag):
+        if not self.posts:
+            return []
         return [p for p in self.posts if tag.lower() in [t.lower() for t in p.tags]]
 
     def validar_post(self, post):
