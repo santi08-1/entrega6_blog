@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1,
+        "titulo": "tt",
+        "contenido": "qq",
+        "autor": {
+            "nombre": "wd",
+            "bio": "",
+            "especialidad": "f",
+            "redes_sociales": {
+                "red": "g"
+            }
+        },
+        "tags": [
+            "w"
+        ],
+        "estado": "publicado"
+    }
+]
